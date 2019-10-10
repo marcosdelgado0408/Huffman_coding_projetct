@@ -9,13 +9,14 @@ import java.util.Scanner;
 
 public class Codificacao {
     private Map<Character,Integer> frequencia;
-    private Heap filaPrioridade;
+    private HeapMix filaPrioridade;
 
 
+    public HeapMix getFilaPrioridade() { return filaPrioridade; }
 
     public Codificacao(){
         frequencia = new HashMap<>();
-        filaPrioridade = new Heap(); // TODO ainda não sei a capacidade que a heap deve ter
+        filaPrioridade = new HeapMix(); // TODO ainda não sei a capacidade que a heap deve ter
     }
 
     public void printMap(){
@@ -30,7 +31,6 @@ public class Codificacao {
 
     public void gerarFrequencia(String caminho) {
         File file = new File(caminho);
-
 
         if(file.exists()){
 
@@ -86,8 +86,41 @@ public class Codificacao {
         /*Está imprimindo uma parte de maneira errada, mas quando um é atendido a fila organiza os demais direito*/
     }
 
+    public void guardarFrequenciaABB(){
+        Node primeiroNode;
+        Node segundoNode;
+        Node newNode;
+
+        // TODO pegar o primeiro e o segundo nó, somar a frequencia , criar um novo nó com a soma e adicionar de volta na heap
+
+        while (filaPrioridade.getSize() > 0) {
+
+            if(filaPrioridade.getSize() == 1){ // quando tiver so 1 -> a árvore binaria estará pronta
+                break;
+            }
+
+            primeiroNode = filaPrioridade.peek();
+            filaPrioridade.remove();
+
+            segundoNode = filaPrioridade.peek();
+            filaPrioridade.remove();
+
+
+            int newCount = primeiroNode.getCount() + segundoNode.getCount();
+
+            newNode = new Node(newCount,primeiroNode, segundoNode);
+
+            this.filaPrioridade.addNode(newNode);
+
+        }
+
+    }
+
+
+
+    }
 
 
 
 
-}
+

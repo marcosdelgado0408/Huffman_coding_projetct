@@ -2,11 +2,11 @@ package codes;
 
 import java.util.Arrays;
 
-public class Heap {
+public class HeapMix { // no caso uma min heap -> misturada com uma ABB
 
-    private Frequencia[] nodes;
-    private int size;//quantos elementos tem
-    private int capacity; //quantos elementos pode ter
+    private Node[] nodes;
+    private int size;
+    private int capacity;
 
 
     /*
@@ -16,21 +16,21 @@ public class Heap {
 
 
 
-    public Heap(int capacity) {
-        nodes = new Frequencia[capacity];
+    public HeapMix(int capacity) {
+        nodes = new Node[capacity];
         this.size = 0;
         this.capacity = capacity;
     }
 
-    public Frequencia[] getNodes() { return nodes; }
+    public Node[] getNodes() { return nodes; }
 
-    public Heap() { this(10);}
+    public HeapMix() { this(5);}
 
-    public void addNode(char letter, int count) {
-        addNode(new Frequencia(letter, count));
+    public void addNode(int letter, int count) {
+        addNode(new Node(letter, count));
     }
 
-    public void addNode(Frequencia node) {
+    public void addNode(Node node) {
         this.ensureCapacity();
         this.nodes[getSize()] = node;
         heapifyUp(getSize());
@@ -43,8 +43,8 @@ public class Heap {
         }
         int parentIndex = getParentIndex(index);
 
-        Frequencia node = nodes[index];
-        Frequencia pai  = nodes[parentIndex];
+        Node node = nodes[index];
+        Node pai  = nodes[parentIndex];
 
         if (node.getCount() < pai.getCount()) {
             nodes[index] = pai;
@@ -72,7 +72,7 @@ public class Heap {
         return size;
     }
 
-    public Frequencia peek() {
+    public Node peek() {
         if (getSize() == 0)  {
             return null;
         }
@@ -84,7 +84,6 @@ public class Heap {
         nodes[0] = nodes[getSize() - 1];
         nodes[getSize() - 1] = null;
         size--;
-        //manutencaoPrioriade(0);
         heapifyDown(0);
     }
 
@@ -109,14 +108,15 @@ public class Heap {
         }
 
         if (nodes[index].getCount() > nodes[childIndex].getCount()) {
-            Frequencia tmp          = nodes[index];
+            Node tmp          = nodes[index];
             nodes[index]      = nodes[childIndex];
             nodes[childIndex] = tmp;
             heapifyDown(childIndex);
         }
     }
 
-
-
+    public Node getRoot(){
+        return this.nodes[0];
+    }
 
 }

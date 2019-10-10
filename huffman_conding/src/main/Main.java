@@ -1,6 +1,7 @@
 package main;
 import codes.*;
 
+import javax.swing.*;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -20,7 +21,20 @@ public class Main {
 
         codificacao.verFilaPrioridade();
 
+        codificacao.guardarFrequenciaABB();
 
+
+
+        // FUNCIONA !!!
+
+        JFrame frame = new JFrame("Visualizador de ABB");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+
+        ArvoreBinariaBuscaView view = new ArvoreBinariaBuscaView(codificacao.getFilaPrioridade());
+        frame.add(view);
+
+        frame.setVisible(true);
 
 
     }
