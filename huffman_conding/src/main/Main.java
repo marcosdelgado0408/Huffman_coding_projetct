@@ -1,6 +1,7 @@
 package main;
 import codes.*;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 // ./programa.jar compress arquivo.txt arquivo.edz arquivo.e
@@ -14,10 +15,10 @@ public class Main {
         String caminho = args[2];
 
         codificacao.gerarFrequencia(caminho);
+        codificacao.printMap();
+        codificacao.guardarFrequenciaHeap();
 
-        System.out.println(caminho);
-
-
+        codificacao.verFilaPrioridade();
 
 
 

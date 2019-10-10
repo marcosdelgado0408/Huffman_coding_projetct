@@ -2,29 +2,30 @@ package codes;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Codificacao {
-
     private Map<Character,Integer> frequencia;
+    private Heap filaPrioridade;
+
+
 
     public Codificacao(){
         frequencia = new HashMap<>();
-
+        filaPrioridade = new Heap(); // TODO ainda não sei a capacidade que a heap deve ter
     }
-
 
     public void printMap(){
-        HashMap<Character,Integer> percorrer = new HashMap<>();
-
-
+        System.out.print("[");
+        for (Map.Entry<Character,Integer> pair : frequencia.entrySet()) {
+            System.out.print(" <" + pair.getKey() + "," + pair.getValue() + "> ");
+        }
+        System.out.println("]");
 
     }
-
-
-
 
 
     public void gerarFrequencia(String caminho) {
@@ -48,8 +49,6 @@ public class Codificacao {
                 char[] linha_char = linha.toCharArray();
 
                 for(char i : linha_char){
-                // TODO preciso percorrer todo o hasmap para verificar se ja existe a letra
-
                     if(frequencia.containsKey(i)){
 
                         int valor_frequencia = frequencia.get(i);
@@ -58,12 +57,9 @@ public class Codificacao {
 
                         frequencia.put(i,valor_frequencia);
 
-                        System.out.println("quantidade: " + frequencia.get(i));
-
                     }
                     else {
-                        System.out.println("adding " + i);
-                        frequencia.put(i,0);
+                        frequencia.put(i,1); // 1 pois quando entra pela primeira vez, ja conta 1
                     }
                 }
             }
@@ -76,6 +72,18 @@ public class Codificacao {
             return;
         }
 
+    }
+
+    public void guardarFrequenciaHeap(){
+        for (Map.Entry<Character,Integer> pair : frequencia.entrySet()) {
+            this.filaPrioridade.addNode(pair.getKey(),pair.getValue()); // key -> letter / value -> count
+        }
+
+    }
+
+    public void verFilaPrioridade(){
+        System.out.println(Arrays.toString(this.filaPrioridade.getNodes()));
+        /*Está imprimindo uma parte de maneira errada, mas quando um é atendido a fila organiza os demais direito*/
     }
 
 
