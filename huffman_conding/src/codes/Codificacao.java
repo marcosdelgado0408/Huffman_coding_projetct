@@ -2,6 +2,8 @@ package codes;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +12,7 @@ import java.util.Scanner;
 public class Codificacao {
     private Map<Character,Integer> frequencia;
     private HeapMix filaPrioridade;
+    private String caminhoCod;
 
 
     public HeapMix getFilaPrioridade() { return filaPrioridade; }
@@ -17,6 +20,7 @@ public class Codificacao {
     public Codificacao(){
         frequencia = new HashMap<>();
         filaPrioridade = new HeapMix(); // TODO ainda não sei a capacidade que a heap deve ter
+        caminhoCod = "";
     }
 
     public void printMap(){
@@ -91,7 +95,6 @@ public class Codificacao {
         Node segundoNode;
         Node newNode;
 
-        // TODO pegar o primeiro e o segundo nó, somar a frequencia , criar um novo nó com a soma e adicionar de volta na heap
 
         while (filaPrioridade.getSize() > 0) {
 
@@ -116,9 +119,53 @@ public class Codificacao {
 
     }
 
+    // TODO ainda ta muito bugado -> mas parece que esse é o caminho
+    public void chegarFolha(Node node){ // TODO método para chegar na folha e retornar os 0´s e 1´s do seu caminho
+
+        if(node.getLeft() == null && node.getRight() == null){
+            caminhoCod = caminhoCod + (char)node.getLetter() + "\n";
+        }
+
+        if(node.getLeft() != null){ // pra esquerda -> adicionamos um 0
+            caminhoCod = caminhoCod + 0;
+            this.chegarFolha(node.getLeft());
+        }
+
+        if(node.getRight() != null){ // pra direita -> adicionamos um 1
+            caminhoCod = caminhoCod + 1;
+            this.chegarFolha(node.getRight());
+        }
 
 
     }
+
+
+
+
+
+    public void criarTabelaCodificacao(){
+        try {
+
+            FileWriter fileWriter = new FileWriter("tabela_codificacao.edt");
+
+            this.chegarFolha(this.getFilaPrioridade().getRoot());
+
+            System.out.println(this.caminhoCod);
+
+            fileWriter.write(this.caminhoCod);
+            fileWriter.close();
+
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
+}
 
 
 

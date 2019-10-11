@@ -2,7 +2,7 @@ package codes;
 
 import java.util.Arrays;
 
-public class HeapMix { // no caso uma min heap -> misturada com uma ABB
+public class HeapMix { // min heap -> misturada com uma ABB
 
     private Node[] nodes;
     private int size;
@@ -14,7 +14,7 @@ public class HeapMix { // no caso uma min heap -> misturada com uma ABB
     * heapifyip para a prioridade ser do menor para o maior
     */
 
-
+    public Node getRoot(){ return this.nodes[0]; } // quando a heap virar uma ABB -> o unico elemento da heap será o no raiz
 
     public HeapMix(int capacity) {
         nodes = new Node[capacity];
@@ -115,8 +115,8 @@ public class HeapMix { // no caso uma min heap -> misturada com uma ABB
         }
     }
 
-    public Node getRoot(){
-        return this.nodes[0];
-    }
+
+
+
 
 }

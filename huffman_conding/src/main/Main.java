@@ -23,10 +23,11 @@ public class Main {
 
         codificacao.guardarFrequenciaABB();
 
+        codificacao.criarTabelaCodificacao();
 
 
-        // FUNCIONA !!!
 
+        // ------------- printar a ABB -----------------------
         JFrame frame = new JFrame("Visualizador de ABB");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
@@ -35,7 +36,7 @@ public class Main {
         frame.add(view);
 
         frame.setVisible(true);
-
+        // --------------------------------------------------
 
     }
 }
