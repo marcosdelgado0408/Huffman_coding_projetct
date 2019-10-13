@@ -1,18 +1,13 @@
 package codes;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Codificacao {
     private Map<Character,Integer> frequencia;
     private HeapMix filaPrioridade;
-    private String caminhoCod;
+    private HashMap<Character, StringBuilder> codificacao;
+
 
 
     public HeapMix getFilaPrioridade() { return filaPrioridade; }
@@ -20,7 +15,7 @@ public class Codificacao {
     public Codificacao(){
         frequencia = new HashMap<>();
         filaPrioridade = new HeapMix(); // TODO ainda não sei a capacidade que a heap deve ter
-        caminhoCod = "";
+        codificacao = new HashMap<Character, StringBuilder>();
     }
 
     public void printMap(){
@@ -119,23 +114,48 @@ public class Codificacao {
 
     }
 
-    // TODO ainda ta muito bugado -> mas parece que esse é o caminho
-    public void chegarFolha(Node node){ // TODO método para chegar na folha e retornar os 0´s e 1´s do seu caminho
 
-        if(node.getLeft() == null && node.getRight() == null){
-            caminhoCod = caminhoCod + (char)node.getLetter() + "\n";
+
+    void jogarTabela(Node node) {
+        char[] path = new char[1000];
+        printPathsRecur(node, path, 0, 'n');
+    }
+
+
+    void printPathsRecur(Node node, char[] path, int pathLen, char side) {
+        if (node == null)
+            return;
+
+        /* append this node to the path array */
+        if(side != 'n'){
+            path[pathLen] = side;
+            pathLen++;
         }
 
-        if(node.getLeft() != null){ // pra esquerda -> adicionamos um 0
-            caminhoCod = caminhoCod + 0;
-            this.chegarFolha(node.getLeft());
+        /* it's a leaf, so print the path that led to here */
+        if (node.getLeft() == null && node.getRight() == null){
+            addMap(path, pathLen, (char)node.getLetter());
         }
 
-        if(node.getRight() != null){ // pra direita -> adicionamos um 1
-            caminhoCod = caminhoCod + 1;
-            this.chegarFolha(node.getRight());
+        else {
+            /* otherwise try both subtrees */
+            printPathsRecur(node.getLeft(), path, pathLen, '0');
+            printPathsRecur(node.getRight(), path, pathLen, '1');
+        }
+    }
+
+
+    void addMap(char[] chars, int len, char letter) {
+        //List<Character> path = new ArrayList<>();
+
+        StringBuilder path = new StringBuilder();
+
+        int i;
+        for (i = 0; i < len; i++){
+            path.append(chars[i]);
         }
 
+        codificacao.put(letter, path); // adicionando no hashmap
 
     }
 
@@ -143,16 +163,31 @@ public class Codificacao {
 
 
 
+
+
+
+
+
+
+
     public void criarTabelaCodificacao(){
+
         try {
 
-            FileWriter fileWriter = new FileWriter("tabela_codificacao.edt");
+           FileWriter fileWriter = new FileWriter("tabela_codificacao.edt");
 
-            this.chegarFolha(this.getFilaPrioridade().getRoot());
+           jogarTabela(filaPrioridade.getRoot());
 
-            System.out.println(this.caminhoCod);
 
-            fileWriter.write(this.caminhoCod);
+            System.out.print("[");
+            for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) {
+                System.out.print(" <" + pair.getKey() + "," + pair.getValue().toString() + "> ");
+
+                fileWriter.write(pair.getKey().toString() + pair.getValue() + "\n");
+            }
+            System.out.println("]");
+
+
             fileWriter.close();
 
         }
@@ -160,8 +195,8 @@ public class Codificacao {
             e.printStackTrace();
         }
 
-    }
 
+    }
 
 
 

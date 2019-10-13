@@ -26,13 +26,19 @@ public class Node { // letter precisa ser inteiro para poder criar o Nó EOF
 
     public int getCount() { return count; }
 
-    public void setLetter(char letter) { this.letter = letter; }
+    public void setLetter(int letter) { this.letter = letter; }
 
     public void setCount(int count) { this.count = count; }
 
     public Node getLeft() { return left; }
 
     public Node getRight() { return right; }
+
+    public void setLeft(Node left) { this.left = left; }
+
+    public void setRight(Node right) { this.right = right; }
+
+
 
     @Override
     public String toString(){
