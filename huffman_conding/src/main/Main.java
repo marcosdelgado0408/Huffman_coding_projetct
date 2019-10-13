@@ -2,8 +2,6 @@ package main;
 import codes.*;
 
 import javax.swing.*;
-import java.util.Arrays;
-import java.util.Scanner;
 
 // ./programa.jar compress arquivo.txt arquivo.edz arquivo.e
 // ./programa.jar extract arquivo.edz arquivo.edt arquivo.t
@@ -11,11 +9,13 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Codificacao codificacao = new Codificacao();
+        Compressor codificacao = new Compressor();
+        Extractor decodificacao = new Extractor();
 
-        String caminho = args[2];
+        String caminhoTxt = args[2];
+        String caminhoEdz = args[3];
 
-        codificacao.gerarFrequencia(caminho);
+        codificacao.gerarFrequencia(caminhoTxt);
         codificacao.printMap();
         codificacao.guardarFrequenciaHeap();
 
@@ -24,6 +24,14 @@ public class Main {
         codificacao.guardarFrequenciaABB();
 
         codificacao.criarTabelaCodificacao();
+
+        codificacao.CriarArquivoBinario(caminhoTxt,caminhoEdz);
+
+
+        decodificacao.gerarTabelaCodificacao("tabela_codificacao.edt");
+        decodificacao.lerBinario("arquivo.edz");
+        decodificacao.recuperandoArquivo();
+
 
 
 

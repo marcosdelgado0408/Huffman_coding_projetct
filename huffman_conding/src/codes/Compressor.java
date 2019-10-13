@@ -3,19 +3,19 @@ package codes;
 import java.io.*;
 import java.util.*;
 
-public class Codificacao {
+public class Compressor {
     private Map<Character,Integer> frequencia;
     private HeapMix filaPrioridade;
-    private HashMap<Character, StringBuilder> codificacao;
+    private Map<Character, StringBuilder> codificacao;
 
 
 
     public HeapMix getFilaPrioridade() { return filaPrioridade; }
 
-    public Codificacao(){
+    public Compressor(){
         frequencia = new HashMap<>();
         filaPrioridade = new HeapMix(); // TODO ainda não sei a capacidade que a heap deve ter
-        codificacao = new HashMap<Character, StringBuilder>();
+        codificacao = new HashMap<>();
     }
 
     public void printMap(){
@@ -26,7 +26,6 @@ public class Codificacao {
         System.out.println("]");
 
     }
-
 
     public void gerarFrequencia(String caminho) {
         File file = new File(caminho);
@@ -77,7 +76,7 @@ public class Codificacao {
         for (Map.Entry<Character,Integer> pair : frequencia.entrySet()) {
             this.filaPrioridade.addNode(pair.getKey(),pair.getValue()); // key -> letter / value -> count
         }
-
+        this.filaPrioridade.addNode(500,1); // Node EOF
     }
 
     public void verFilaPrioridade(){
@@ -162,14 +161,6 @@ public class Codificacao {
 
 
 
-
-
-
-
-
-
-
-
     public void criarTabelaCodificacao(){
 
         try {
@@ -177,7 +168,6 @@ public class Codificacao {
            FileWriter fileWriter = new FileWriter("tabela_codificacao.edt");
 
            jogarTabela(filaPrioridade.getRoot());
-
 
             System.out.print("[");
             for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) {
@@ -194,9 +184,96 @@ public class Codificacao {
         catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+
+
+
+    public void CriarArquivoBinario(String caminhoTxt, String caminhoEdz ){
+
+        try {
+
+            File file = new File(caminhoTxt);
+
+            if(file.exists()) {
+
+                Scanner ler = new Scanner(file);
+                File binaryFile = new File(caminhoEdz);
+
+                FileOutputStream fileOutputStream = new FileOutputStream(binaryFile);
+                ObjectOutputStream outputStream = new ObjectOutputStream(fileOutputStream);
+
+                String bits = "";
+
+                while (ler.hasNextLine()){
+                    String linha = ler.nextLine();
+
+                    char[] caracteresLinha = linha.toCharArray();
+
+                    for(char it: caracteresLinha){
+                       bits += this.codificacao.get(it);
+                    }
+                }
+
+
+                bits += this.codificacao.get((char)500); // concatenando o EOF aos bits de saida
+
+
+                System.out.println(bits);
+
+                BitSet bitSet = new BitSet(bits.length());
+
+                char[] chars = bits.toCharArray();
+
+
+                for(int i=0;i<bits.length();i++){
+                    if(chars[i] == '1'){
+                        bitSet.set(i, true);
+                    }
+                    else {
+                        bitSet.set(i, false);
+                    }
+                }
+
+
+                System.out.println("BitSet: " + bitSet);
+
+                outputStream.write(bitSet.toByteArray());
+                outputStream.flush();
+                outputStream.close();
+
+
+                ler.close();
+                fileOutputStream.close();
+            }
+
+
+
+
+
+
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+
+
+
+
 
 
     }
+
+
+
+
 
 
 
