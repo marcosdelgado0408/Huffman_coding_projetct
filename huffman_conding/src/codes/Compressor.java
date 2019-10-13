@@ -161,11 +161,11 @@ public class Compressor {
 
 
 
-    public void criarTabelaCodificacao(){
+    public void criarTabelaCodificacao(String caminhoEdt){
 
         try {
 
-           FileWriter fileWriter = new FileWriter("tabela_codificacao.edt");
+           FileWriter fileWriter = new FileWriter(caminhoEdt);
 
            jogarTabela(filaPrioridade.getRoot());
 
@@ -259,14 +259,6 @@ public class Compressor {
             catch (IOException e) {
                 e.printStackTrace();
             }
-
-
-
-
-
-
-
-
 
 
     }

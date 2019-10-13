@@ -98,9 +98,9 @@ public class Extractor {
 
 
 
-    public void recuperandoArquivo(){
+    public void recuperandoArquivo(String caminhoTxt){
         try {
-            FileWriter fileWriter = new FileWriter("saida.txt");
+            FileWriter fileWriter = new FileWriter(caminhoTxt);
 
             StringBuilder key = new StringBuilder();
 
