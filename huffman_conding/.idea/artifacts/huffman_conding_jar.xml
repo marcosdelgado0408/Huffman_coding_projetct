@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="huffman_conding:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/huffman_conding_jar</output-path>
+    <root id="archive" name="huffman_conding.jar">
+      <element id="module-output" name="huffman_conding" />
+    </root>
+  </artifact>
+</component>

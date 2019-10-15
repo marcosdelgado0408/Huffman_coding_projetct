@@ -9,7 +9,6 @@ public class Extractor {
 
 
 
-
     public Extractor(){
         codificacao = new HashMap<>();
         bitsRecebidos = new ArrayList<>();
@@ -35,7 +34,7 @@ public class Extractor {
                     bits.append(chars[i]);
                 }
 
-                this.codificacao.put(chars[0],bits);
+                this.codificacao.put(chars [0],bits);
 
             }
 
@@ -100,6 +99,7 @@ public class Extractor {
 
     public void recuperandoArquivo(String caminhoTxt){
         try {
+
             FileWriter fileWriter = new FileWriter(caminhoTxt);
 
             StringBuilder key = new StringBuilder();
@@ -109,27 +109,34 @@ public class Extractor {
                 key.append(it);
 
                 for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) { // percorrer a tabela de codificação
-                    if((int)pair.getKey() <= 255){ // caso  a key for igual ao EOF
+                    // caso a key estiver no range da tabela ascii
                         if(key.compareTo(pair.getValue()) == 0){
-                            fileWriter.write(pair.getKey());
-                            key = new StringBuilder();
+
+                            if((int)pair.getKey() == 256){ // caso achar o caractere do EOF
+                                break;
+                            }
+
+                            if((int)pair.getKey() == 257){ // caso achar o caracter do '\n'
+                                fileWriter.write('\n');
+                                key = new StringBuilder();
+                            }
+
+                            else {
+                                fileWriter.write(pair.getKey());
+                                key = new StringBuilder();
+                            }
+
                         }
-                    }
-                    else {
-                        if(key.compareTo(pair.getValue()) == 0) {
-                            break;
-                        }
-                    }
 
                 }
-
 
             }
 
             fileWriter.close();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
         }
 
 
@@ -139,11 +146,17 @@ public class Extractor {
 
 
 
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

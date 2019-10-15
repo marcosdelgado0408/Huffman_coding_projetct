@@ -40,7 +40,15 @@ public class Compressor {
                 e.printStackTrace();
             }
 
-            while (ler_linha.hasNextLine()){ // pegar todas as linhas do arquivo
+            frequencia.put((char)257,0); // o '\n' será representado pelo 257
+
+            while (ler_linha.hasNextLine()){ // pegar cada linha do arquivo
+
+                // cada vez que for lida uma linha vamos adicionar na frequencia do '\n'
+                int freqQuebraLinha = frequencia.get((char)257);
+                freqQuebraLinha++;
+                frequencia.put((char)257,freqQuebraLinha);
+
 
                 String linha = ler_linha.nextLine();
 
@@ -57,6 +65,7 @@ public class Compressor {
 
                     }
                     else {
+                        //TODO pegar o \n
                         frequencia.put(i,1); // 1 pois quando entra pela primeira vez, ja conta 1
                     }
                 }
@@ -76,7 +85,7 @@ public class Compressor {
         for (Map.Entry<Character,Integer> pair : frequencia.entrySet()) {
             this.filaPrioridade.addNode(pair.getKey(),pair.getValue()); // key -> letter / value -> count
         }
-        this.filaPrioridade.addNode(500,1); // Node EOF
+        this.filaPrioridade.addNode(256,1); // Node EOF
     }
 
     public void verFilaPrioridade(){
@@ -213,10 +222,11 @@ public class Compressor {
                     for(char it: caracteresLinha){
                        bits += this.codificacao.get(it);
                     }
+                    bits += this.codificacao.get((char)257); // adicionano o '\n'
                 }
 
 
-                bits += this.codificacao.get((char)500); // concatenando o EOF aos bits de saida
+               bits += this.codificacao.get((char)256); // concatenando o EOF aos bits de saida
 
 
                 System.out.println(bits);
@@ -246,11 +256,6 @@ public class Compressor {
                 ler.close();
                 fileOutputStream.close();
             }
-
-
-
-
-
 
             }
             catch (FileNotFoundException e) {

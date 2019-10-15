@@ -24,7 +24,7 @@ public class HeapMix { // min heap -> misturada com uma ABB
 
     public Node[] getNodes() { return nodes; }
 
-    public HeapMix() { this(5);}
+    public HeapMix() { this(10000);}
 
     public void addNode(int letter, int count) {
         addNode(new Node(letter, count));

@@ -1,7 +1,7 @@
 package main;
 
 
-// ./programa.jar compress arquivo.txt arquivo.edz arquivo.etd
+// ./programa.jar compress arquivo.txt arquivo.edz arquivo.edt
 // ./programa.jar extract arquivo.edz arquivo.edt arquivo.txt
 
 
