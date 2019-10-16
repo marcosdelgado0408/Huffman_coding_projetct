@@ -24,11 +24,13 @@ public class HeapMix { // min heap -> misturada com uma ABB
 
     public Node[] getNodes() { return nodes; }
 
-    public HeapMix() { this(10000);}
+    public HeapMix() { this(10);}
 
     public void addNode(int letter, int count) {
         addNode(new Node(letter, count));
     }
+
+
 
     public void addNode(Node node) {
         this.ensureCapacity();
@@ -36,6 +38,7 @@ public class HeapMix { // min heap -> misturada com uma ABB
         heapifyUp(getSize());
         size++;
     }
+
 
     private void heapifyUp(int index) {
         if (!hasParent(index)) {
@@ -53,6 +56,7 @@ public class HeapMix { // min heap -> misturada com uma ABB
         }
     }
 
+
     private boolean hasParent(int index) {
         return getParentIndex(index) >= 0 && getParentIndex(index) < size;
     }
@@ -68,6 +72,7 @@ public class HeapMix { // min heap -> misturada com uma ABB
         }
     }
 
+
     public int getSize() {
         return size;
     }
@@ -80,12 +85,14 @@ public class HeapMix { // min heap -> misturada com uma ABB
         return nodes[0];
     }
 
+
     public void remove() {
         nodes[0] = nodes[getSize() - 1];
         nodes[getSize() - 1] = null;
         size--;
         heapifyDown(0);
     }
+
 
     private void heapifyDown(int index) {
         int leftChild  = index * 2 + 1;
@@ -114,7 +121,6 @@ public class HeapMix { // min heap -> misturada com uma ABB
             heapifyDown(childIndex);
         }
     }
-
 
 
 

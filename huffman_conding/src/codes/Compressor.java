@@ -14,9 +14,10 @@ public class Compressor {
 
     public Compressor(){
         frequencia = new HashMap<>();
-        filaPrioridade = new HeapMix(); // TODO ainda não sei a capacidade que a heap deve ter
+        filaPrioridade = new HeapMix(); // toda vida que chega na capacidade máxima, ela dobra de tamnho
         codificacao = new HashMap<>();
     }
+
 
     public void printMap(){
         System.out.print("[");
@@ -26,6 +27,7 @@ public class Compressor {
         System.out.println("]");
 
     }
+
 
     public void gerarFrequencia(String caminho) {
         File file = new File(caminho);
@@ -81,6 +83,7 @@ public class Compressor {
 
     }
 
+
     public void guardarFrequenciaHeap(){
         for (Map.Entry<Character,Integer> pair : frequencia.entrySet()) {
             this.filaPrioridade.addNode(pair.getKey(),pair.getValue()); // key -> letter / value -> count
@@ -88,10 +91,12 @@ public class Compressor {
         this.filaPrioridade.addNode(256,1); // Node EOF
     }
 
+
     public void verFilaPrioridade(){
         System.out.println(Arrays.toString(this.filaPrioridade.getNodes()));
         /*Está imprimindo uma parte de maneira errada, mas quando um é atendido a fila organiza os demais direito*/
     }
+
 
     public void guardarFrequenciaABB(){
         Node primeiroNode;
@@ -125,10 +130,9 @@ public class Compressor {
 
 
     void jogarTabela(Node node) {
-        char[] path = new char[1000];
+        char[] path = new char[10000];
         printPathsRecur(node, path, 0, 'n');
     }
-
 
     void printPathsRecur(Node node, char[] path, int pathLen, char side) {
         if (node == null)
@@ -152,15 +156,13 @@ public class Compressor {
         }
     }
 
-
     void addMap(char[] chars, int len, char letter) {
-        //List<Character> path = new ArrayList<>();
 
         StringBuilder path = new StringBuilder();
 
         int i;
         for (i = 0; i < len; i++){
-            path.append(chars[i]);
+            path.append(chars[i]); // jogando o caminho em uma StringBuilder
         }
 
         codificacao.put(letter, path); // adicionando no hashmap
@@ -255,6 +257,7 @@ public class Compressor {
 
                 ler.close();
                 fileOutputStream.close();
+                outputStream.close();
             }
 
             }
