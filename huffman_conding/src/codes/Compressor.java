@@ -8,7 +8,8 @@ public class Compressor {
     private Map<Character,Integer> frequencia;
     private HeapMix filaPrioridade;
     private Map<Character, StringBuilder> codificacao;
-
+    private String bitsParaImprimir;
+    private BitSet bitsetParaImprimir;
 
 
     public HeapMix getFilaPrioridade() { return filaPrioridade; }
@@ -133,12 +134,12 @@ public class Compressor {
 
 
 
-    void jogarTabela(Node node) {
+    private void jogarTabela(Node node) {
         char[] path = new char[10000];
         printPathsRecur(node, path, 0, 'n');
     }
 
-    void printPathsRecur(Node node, char[] path, int pathLen, char side) {
+    private void printPathsRecur(Node node, char[] path, int pathLen, char side) {
         if (node == null)
             return;
 
@@ -160,7 +161,7 @@ public class Compressor {
         }
     }
 
-    void addMap(char[] chars, int len, char letter) {
+    private void addMap(char[] chars, int len, char letter) {
 
         StringBuilder path = new StringBuilder();
 
@@ -184,14 +185,9 @@ public class Compressor {
 
            jogarTabela(filaPrioridade.getRoot());
 
-            //System.out.print("[");
             for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) {
-                //                   IMPRIMIR TABELA DE CODIFICAÇÃO
-                //System.out.print(" <" + pair.getKey() + "," + pair.getValue().toString() + "> ");
-
                 fileWriter.write(pair.getKey().toString() + pair.getValue() + "\n");
             }
-            //System.out.println("]");
 
 
             fileWriter.close();
@@ -212,8 +208,6 @@ public class Compressor {
             File file = new File(caminhoTxt);
 
             if(file.exists()) {
-
-                //Scanner ler = new Scanner(file);
 
                 FileReader fileReader = new FileReader(file);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -245,8 +239,8 @@ public class Compressor {
 
                 bits += this.codificacao.get((char)256); // concatenando o EOF aos bits de saida
 
-                //             IMPRIMIR BITS GERADOS DO ARQUIVO ORIGINAL
-                //System.out.println(bits);
+                //  IMPRIMIR BITS GERADOS DO ARQUIVO ORIGINAL
+                this.bitsParaImprimir = bits;
 
                 BitSet bitSet = new BitSet(bits.length());
 
@@ -262,8 +256,8 @@ public class Compressor {
                     }
                 }
 
-                //             IMPRIMIR BITSET DOS BITS GERADOS
-                //System.out.println("BitSet: " + bitSet);
+                //  IMPRIMIR BITSET DOS BITS GERADOS
+                this.bitsetParaImprimir = bitSet;
 
                 outputStream.write(bitSet.toByteArray());
                 outputStream.flush();
@@ -315,7 +309,29 @@ public class Compressor {
 
     }
 
+    public void printAllInfo(){
+        System.out.println("MAP:");
+        this.printMap();
+        System.out.print("[");
 
+        System.out.println("FILA DE PRIORIDADE:");
+        this.verFilaPrioridade();
+
+
+        //                   IMPRIMIR TABELA DE CODIFICAÇÃO
+        System.out.println("TABELA DE CODIFICAÇÃO:");
+        for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) {
+            System.out.print(" <" + pair.getKey() + "," + pair.getValue().toString() + "> ");
+        }
+        System.out.println("]");
+
+
+        System.out.println("BITS ENVIADOS:");
+        System.out.println(bitsParaImprimir);
+
+        System.out.println("BITSET DOS BITS ENVIADOS:");
+        System.out.println(bitsetParaImprimir);
+    }
 
 
 

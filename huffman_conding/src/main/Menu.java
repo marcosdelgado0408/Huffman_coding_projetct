@@ -24,10 +24,8 @@ public class Menu {
             String caminhoEdt = args[3];
 
             codificacao.gerarFrequencia(caminhoTxt);
-            //codificacao.printMap();
 
             codificacao.guardarFrequenciaHeap();
-            //codificacao.verFilaPrioridade();
 
             codificacao.guardarFrequenciaABB();
 
@@ -49,7 +47,9 @@ public class Menu {
 
                     frame.setVisible(true);
                     // --------------------------------------------------
-
+                }
+                else if(args[4].equals("--print-all-info") || args[4].equals("-p")){
+                    codificacao.printAllInfo();
                 }
             }
 
@@ -67,6 +67,13 @@ public class Menu {
             decodificacao.gerarTabelaCodificacao(caminhoEdt);
             decodificacao.lerBinario(caminhoEdz);
             decodificacao.recuperandoArquivo(caminhoTxt);
+
+            if(args.length > 4){
+                if(args[4].equals("--print-all-info") || args[4].equals("-p")){
+                    decodificacao.printAllInfo();
+                }
+            }
+
         }
 
         else {

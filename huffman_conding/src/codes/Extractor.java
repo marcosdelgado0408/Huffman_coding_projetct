@@ -6,6 +6,7 @@ import java.util.*;
 public class Extractor {
     private Map<Character, StringBuilder> codificacao;
     private List<Character> bitsRecebidos;
+    private BitSet bitsetParaIprimir;
 
 
 
@@ -45,12 +46,7 @@ public class Extractor {
             e.printStackTrace();
         }
 
-//                             IMPRIMIR TABELA DE CODIFICAÇÃO
-//        System.out.print("[");
-//        for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) {
-//            System.out.print(" <" + pair.getKey() + "," + pair.getValue().toString() + "> ");
-//        }
-//        System.out.println("]");
+
     }
 
 
@@ -68,7 +64,7 @@ public class Extractor {
                 BitSet bitSet = BitSet.valueOf(bytes);
 
                 //      IMPRIMIR BITSET RECEBIDO
-                //System.out.println(bitSet);
+                bitsetParaIprimir = bitSet;
 
                 for(int i=0;i<bitSet.length();i++){
                     if(bitSet.get(i)){
@@ -78,12 +74,6 @@ public class Extractor {
                         bitsRecebidos.add('0');
                     }
                 }
-
-//                        IMPRIMIR BITS RECEBIDOS
-//                for (Character it:this.bitsRecebidos){
-//                    System.out.print(it);
-//                }
-//                System.out.println();
 
                 fileInputStream.close();
                 objectInputStream.close();
@@ -148,6 +138,30 @@ public class Extractor {
 
     }
 
+
+    public void printAllInfo(){
+//                       IMPRIMIR TABELA DE CODIFICAÇÃO
+        System.out.print("[");
+        for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) {
+            System.out.print(" <" + pair.getKey() + "," + pair.getValue().toString() + "> ");
+        }
+        System.out.println("]");
+
+
+//                  IMPRIMIR BITSET
+        System.out.println("BITSET RECEBIDO:");
+        System.out.println(this.bitsetParaIprimir);
+
+
+
+//                  IMPRIMIR BITS RECEBIDOS
+                for (Character it:this.bitsRecebidos){
+                    System.out.print(it);
+                }
+                System.out.println();
+
+
+    }
 
 
 
