@@ -30,50 +30,53 @@ public class Compressor {
 
 
     public void gerarFrequencia(String caminho) {
+
         File file = new File(caminho);
 
         if(file.exists()){
 
-            Scanner ler_linha = null;
             try {
-                ler_linha = new Scanner(file);
-            }
-            catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+                FileReader fileReader = new FileReader(file);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-            frequencia.put((char)257,0); // o '\n' será representado pelo 257
+                int c = 0;
+                while((c  = bufferedReader.read()) != -1){ // ler caractere por caractere
+                    char character = (char) c;
 
-            while (ler_linha.hasNextLine()){ // pegar cada linha do arquivo
+                    if(character == '\n'){
+                        character = (char)257; // '\n' vai ser representado pelo 257
+                    }
 
-                // cada vez que for lida uma linha vamos adicionar na frequencia do '\n'
-                int freqQuebraLinha = frequencia.get((char)257);
-                freqQuebraLinha++;
-                frequencia.put((char)257,freqQuebraLinha);
+                    else if (character == '\r'){
+                        character = (char)258; // '\r' vai ser representado pelo 258
+                    }
 
 
-                String linha = ler_linha.nextLine();
+                    if(frequencia.containsKey(character)){
 
-                char[] linha_char = linha.toCharArray();
-
-                for(char i : linha_char){
-                    if(frequencia.containsKey(i)){
-
-                        int valor_frequencia = frequencia.get(i);
+                        int valor_frequencia = frequencia.get(character);
 
                         valor_frequencia++;
 
-                        frequencia.put(i,valor_frequencia);
+                        frequencia.put(character,valor_frequencia);
 
                     }
                     else {
                         //TODO pegar o \n
-                        frequencia.put(i,1); // 1 pois quando entra pela primeira vez, ja conta 1
-                    }
-                }
-            }
 
-            ler_linha.close();
+                        frequencia.put(character,1); // 1 pois quando entra pela primeira vez, ja conta 1
+
+                    }
+
+                }
+
+                fileReader.close();
+                bufferedReader.close();
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
         else {
@@ -208,7 +211,11 @@ public class Compressor {
 
             if(file.exists()) {
 
-                Scanner ler = new Scanner(file);
+                //Scanner ler = new Scanner(file);
+
+                FileReader fileReader = new FileReader(file);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+
                 File binaryFile = new File(caminhoEdz);
 
                 FileOutputStream fileOutputStream = new FileOutputStream(binaryFile);
@@ -216,20 +223,25 @@ public class Compressor {
 
                 String bits = "";
 
-                while (ler.hasNextLine()){
-                    String linha = ler.nextLine();
+                int c = 0;
+                while ((c  = bufferedReader.read()) != -1){ // lendo arquivo original
 
-                    char[] caracteresLinha = linha.toCharArray();
+                    char character = (char)c;
 
-                    for(char it: caracteresLinha){
-                       bits += this.codificacao.get(it);
+                    if(character == '\n'){
+                        character = (char)257; // '\n' vai ser representado pelo 257
                     }
-                    bits += this.codificacao.get((char)257); // adicionano o '\n'
+
+                    else if (character == '\r'){
+                        character = (char)258; // '\r' vai ser representado pelo 258
+                    }
+
+                    bits += this.codificacao.get(character);
+
                 }
 
 
-               bits += this.codificacao.get((char)256); // concatenando o EOF aos bits de saida
-
+                bits += this.codificacao.get((char)256); // concatenando o EOF aos bits de saida
 
                 System.out.println(bits);
 
@@ -238,7 +250,7 @@ public class Compressor {
                 char[] chars = bits.toCharArray();
 
 
-                for(int i=0;i<bits.length();i++){
+                for(int i=0;i<bits.length();i++){ // transformando os bits para um Bitset
                     if(chars[i] == '1'){
                         bitSet.set(i, true);
                     }
@@ -255,7 +267,8 @@ public class Compressor {
                 outputStream.close();
 
 
-                ler.close();
+                fileReader.close();
+                bufferedReader.close();
                 fileOutputStream.close();
                 outputStream.close();
             }

@@ -116,8 +116,13 @@ public class Extractor {
                                 break;
                             }
 
-                            if((int)pair.getKey() == 257){ // caso achar o caracter do '\n'
+                            else if((int)pair.getKey() == 257){ // caso achar o caracter do '\n'
                                 fileWriter.write('\n');
+                                key = new StringBuilder();
+                            }
+
+                            else if((int)pair.getKey() == 258){ // caso achar o caracter do '\n'
+                                fileWriter.write('\r');
                                 key = new StringBuilder();
                             }
 
