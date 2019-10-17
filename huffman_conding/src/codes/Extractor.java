@@ -40,15 +40,17 @@ public class Extractor {
 
             scanner.close();
 
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        System.out.print("[");
-        for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) {
-            System.out.print(" <" + pair.getKey() + "," + pair.getValue().toString() + "> ");
-        }
-        System.out.println("]");
+//                             IMPRIMIR TABELA DE CODIFICAÇÃO
+//        System.out.print("[");
+//        for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) {
+//            System.out.print(" <" + pair.getKey() + "," + pair.getValue().toString() + "> ");
+//        }
+//        System.out.println("]");
     }
 
 
@@ -65,7 +67,8 @@ public class Extractor {
 
                 BitSet bitSet = BitSet.valueOf(bytes);
 
-                System.out.println(bitSet);
+                //      IMPRIMIR BITSET RECEBIDO
+                //System.out.println(bitSet);
 
                 for(int i=0;i<bitSet.length();i++){
                     if(bitSet.get(i)){
@@ -76,18 +79,17 @@ public class Extractor {
                     }
                 }
 
-
-                for (Character it:this.bitsRecebidos){
-                    System.out.print(it);
-                }
-                System.out.println();
+//                        IMPRIMIR BITS RECEBIDOS
+//                for (Character it:this.bitsRecebidos){
+//                    System.out.print(it);
+//                }
+//                System.out.println();
 
                 fileInputStream.close();
                 objectInputStream.close();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -136,7 +138,6 @@ public class Extractor {
                 }
 
             }
-
             fileWriter.close();
 
         }

@@ -1,6 +1,7 @@
 package codes;
 
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Compressor {
@@ -183,13 +184,14 @@ public class Compressor {
 
            jogarTabela(filaPrioridade.getRoot());
 
-            System.out.print("[");
+            //System.out.print("[");
             for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) {
-                System.out.print(" <" + pair.getKey() + "," + pair.getValue().toString() + "> ");
+                //                   IMPRIMIR TABELA DE CODIFICAÇÃO
+                //System.out.print(" <" + pair.getKey() + "," + pair.getValue().toString() + "> ");
 
                 fileWriter.write(pair.getKey().toString() + pair.getValue() + "\n");
             }
-            System.out.println("]");
+            //System.out.println("]");
 
 
             fileWriter.close();
@@ -243,7 +245,8 @@ public class Compressor {
 
                 bits += this.codificacao.get((char)256); // concatenando o EOF aos bits de saida
 
-                System.out.println(bits);
+                //             IMPRIMIR BITS GERADOS DO ARQUIVO ORIGINAL
+                //System.out.println(bits);
 
                 BitSet bitSet = new BitSet(bits.length());
 
@@ -259,8 +262,8 @@ public class Compressor {
                     }
                 }
 
-
-                System.out.println("BitSet: " + bitSet);
+                //             IMPRIMIR BITSET DOS BITS GERADOS
+                //System.out.println("BitSet: " + bitSet);
 
                 outputStream.write(bitSet.toByteArray());
                 outputStream.flush();
@@ -284,6 +287,33 @@ public class Compressor {
 
     }
 
+
+    public void exibirTaxaCompressão(String caminhoEdz, String caminhoTxt){
+        File txt = new File(caminhoTxt);
+        File edz = new File(caminhoEdz);
+
+        double tamanho_txt = txt.length();
+        double tamanho_edz = edz.length();
+        double taxa;
+
+        if(tamanho_txt == 0){
+            taxa = 100 * tamanho_edz;
+        }
+        else {
+            taxa = ((tamanho_edz * 100) / tamanho_txt);
+        }
+
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
+        System.out.println("--------------------------------------------------------");
+        System.out.println(caminhoTxt + ": " + tamanho_txt + " bytes");
+        System.out.println(caminhoEdz + ": " + tamanho_edz + " bytes\n");
+
+
+        System.out.println("O arquivo possui " + df.format(taxa) + "% do seu tamanho original\n" );
+        System.out.println("--------------------------------------------------------");
+
+    }
 
 
 

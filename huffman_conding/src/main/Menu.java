@@ -24,16 +24,18 @@ public class Menu {
             String caminhoEdt = args[3];
 
             codificacao.gerarFrequencia(caminhoTxt);
-            codificacao.printMap();
-            codificacao.guardarFrequenciaHeap();
+            //codificacao.printMap();
 
-            codificacao.verFilaPrioridade();
+            codificacao.guardarFrequenciaHeap();
+            //codificacao.verFilaPrioridade();
 
             codificacao.guardarFrequenciaABB();
 
             codificacao.criarTabelaCodificacao(caminhoEdt);
 
             codificacao.CriarArquivoBinario(caminhoTxt,caminhoEdz);
+
+            codificacao.exibirTaxaCompressão(caminhoEdz, caminhoTxt);
 
             if(args.length > 4){
                 if(args[4].equals("--show-abb") || args[4].equals("-s")) { // caso adicionar o argumento -s vai printar a Arvore Binária
@@ -52,7 +54,7 @@ public class Menu {
             }
 
 
-            }
+        }
 
 
 
