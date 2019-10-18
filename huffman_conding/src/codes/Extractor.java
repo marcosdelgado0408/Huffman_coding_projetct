@@ -19,30 +19,33 @@ public class Extractor {
 
     public void gerarTabelaCodificacao(String caminhoEdt){
         try {
+
             File file = new File(caminhoEdt);
-            Scanner scanner = new Scanner(file);
 
-            while (scanner.hasNextLine()){
-                String linha = scanner.nextLine();
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-                char[] chars = linha.toCharArray();
+            int c = 0;
+            while((c  = bufferedReader.read()) != -1){ // ler caractere por caractere
+                char character = (char) c;
 
                 StringBuilder bits = new StringBuilder();
 
-                /* como a primeira posição é a letra e o resto é a codificação, então faço um for para pegar o resto
+                /* como a primeira posição é a letra e o resto é a codificação, então faço outro while para pegar o resto
                  dessa linha, sem pegar a letra */
-                for(int i=1;i<chars.length;i++){
-                    bits.append(chars[i]);
+                int d = 0;
+                while ((d  = bufferedReader.read()) != '\n'){
+                    bits.append((char)d);
                 }
 
-                this.codificacao.put(chars [0],bits);
-
+                this.codificacao.put(character,bits);
             }
 
-            scanner.close();
+            fileReader.close();
+            bufferedReader.close();
 
         }
-        catch (FileNotFoundException e) {
+        catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -100,33 +103,22 @@ public class Extractor {
 
                 key.append(it);
 
-                for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) { // percorrer a tabela de codificação
+                 // percorrer a tabela de codificação
                     // caso a key estiver no range da tabela ascii
-                        if(key.compareTo(pair.getValue()) == 0){
+                for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) {
 
-                            if((int)pair.getKey() == 256){ // caso achar o caractere do EOF
-                                break;
-                            }
+                    if(key.compareTo(pair.getValue()) == 0){
 
-                            else if((int)pair.getKey() == 257){ // caso achar o caracter do '\n'
-                                fileWriter.write('\n');
-                                key = new StringBuilder();
-                            }
-
-                            else if((int)pair.getKey() == 258){ // caso achar o caracter do '\n'
-                                fileWriter.write('\r');
-                                key = new StringBuilder();
-                            }
-
-                            else {
-                                fileWriter.write(pair.getKey());
-                                key = new StringBuilder();
-                            }
-
+                        if((int)pair.getKey() == 256){ // caso achar o caractere do EOF
+                            break;
                         }
 
-                }
+                        fileWriter.write(pair.getKey());
+                        key = new StringBuilder();
 
+                    }
+
+                }
             }
             fileWriter.close();
 

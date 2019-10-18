@@ -7,7 +7,7 @@ import java.util.*;
 public class Compressor {
     private Map<Character,Integer> frequencia;
     private HeapMix filaPrioridade;
-    private Map<Character, StringBuilder> codificacao;
+    private Map<Character, String> codificacao;
     private String bitsParaImprimir;
     private BitSet bitsetParaImprimir;
 
@@ -17,7 +17,7 @@ public class Compressor {
     public Compressor(){
         frequencia = new HashMap<>();
         filaPrioridade = new HeapMix(); // toda vida que chega na capacidade máxima, ela dobra de tamnho
-        codificacao = new HashMap<>();
+        codificacao = new HashMap<Character, String>();
     }
 
 
@@ -44,15 +44,6 @@ public class Compressor {
                 int c = 0;
                 while((c  = bufferedReader.read()) != -1){ // ler caractere por caractere
                     char character = (char) c;
-
-                    if(character == '\n'){
-                        character = (char)257; // '\n' vai ser representado pelo 257
-                    }
-
-                    else if (character == '\r'){
-                        character = (char)258; // '\r' vai ser representado pelo 258
-                    }
-
 
                     if(frequencia.containsKey(character)){
 
@@ -134,45 +125,70 @@ public class Compressor {
 
 
 
-    private void jogarTabela(Node node) {
-        char[] path = new char[10000];
-        printPathsRecur(node, path, 0, 'n');
-    }
 
-    private void printPathsRecur(Node node, char[] path, int pathLen, char side) {
-        if (node == null)
+/* VOU DEIXAR ESSE CÓDIGO ABAIXO COMENTADO, POIS O jogarPaths() SUBSTITUI TODOS ESSES
+    3 MÉTODOS, ALÉM DISSO DEU MUITO TRABALHO PARA FAZER E SÃO FUNCIONAIS.*/
+
+
+
+//
+//
+//    private void jogarTabela(Node node) {
+//        char[] path = new char[1000000000];
+//        printPathsRecur(node, path, 0, 'n');
+//    }
+//
+//    private void printPathsRecur(Node node, char[] path, int pathLen, char side) {
+//        if (node == null)
+//            return;
+//
+//        /* append this node to the path array */
+//        if(side != 'n'){ // caso o lado não for nem 0 e nem 1 -> não vai adicionar o raiz em path[]
+//            path[pathLen] = side;
+//            pathLen++;
+//        }
+//
+//        /* it's a leaf, so print the path that led to here */
+//        if (node.getLeft() == null && node.getRight() == null){
+//            addMap(path, pathLen, (char)node.getLetter());
+//        }
+//
+//        else {
+//            /* otherwise try both subtrees */
+//            printPathsRecur(node.getLeft(), path, pathLen, '0');
+//            printPathsRecur(node.getRight(), path, pathLen, '1');
+//        }
+//    }
+//
+//    private void addMap(char[] chars, int len, char letter) {
+//
+//        // adicionando o path de cada leaf no map da tabela de codificação
+//
+//        StringBuilder path = new StringBuilder();
+//
+//        int i;
+//        for (i = 0; i < len; i++){
+//            path.append(chars[i]); // jogando o caminho em uma StringBuilder
+//        }
+//
+//        codificacao.put(letter, path); // adicionando no hashmap
+//
+//    }
+
+
+    public void jogarPaths(Node root, String path) {
+
+        if (root.getLeft() == null && root.getRight() == null) {
+
+            codificacao.put((char)root.getLetter(), path); // adicionando no hashmap
+
             return;
-
-        /* append this node to the path array */
-        if(side != 'n'){
-            path[pathLen] = side;
-            pathLen++;
         }
 
-        /* it's a leaf, so print the path that led to here */
-        if (node.getLeft() == null && node.getRight() == null){
-            addMap(path, pathLen, (char)node.getLetter());
-        }
-
-        else {
-            /* otherwise try both subtrees */
-            printPathsRecur(node.getLeft(), path, pathLen, '0');
-            printPathsRecur(node.getRight(), path, pathLen, '1');
-        }
+        jogarPaths(root.getLeft(), path + "0");
+        jogarPaths(root.getRight(), path + "1");
     }
 
-    private void addMap(char[] chars, int len, char letter) {
-
-        StringBuilder path = new StringBuilder();
-
-        int i;
-        for (i = 0; i < len; i++){
-            path.append(chars[i]); // jogando o caminho em uma StringBuilder
-        }
-
-        codificacao.put(letter, path); // adicionando no hashmap
-
-    }
 
 
 
@@ -183,9 +199,9 @@ public class Compressor {
 
            FileWriter fileWriter = new FileWriter(caminhoEdt);
 
-           jogarTabela(filaPrioridade.getRoot());
+            jogarPaths(filaPrioridade.getRoot(),"");
 
-            for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) {
+            for (Map.Entry<Character, String> pair : codificacao.entrySet()) {
                 fileWriter.write(pair.getKey().toString() + pair.getValue() + "\n");
             }
 
@@ -224,14 +240,6 @@ public class Compressor {
 
                     char character = (char)c;
 
-                    if(character == '\n'){
-                        character = (char)257; // '\n' vai ser representado pelo 257
-                    }
-
-                    else if (character == '\r'){
-                        character = (char)258; // '\r' vai ser representado pelo 258
-                    }
-
                     bits += this.codificacao.get(character);
 
                 }
@@ -245,7 +253,6 @@ public class Compressor {
                 BitSet bitSet = new BitSet(bits.length());
 
                 char[] chars = bits.toCharArray();
-
 
                 for(int i=0;i<bits.length();i++){ // transformando os bits para um Bitset
                     if(chars[i] == '1'){
@@ -320,17 +327,17 @@ public class Compressor {
 
         //                   IMPRIMIR TABELA DE CODIFICAÇÃO
         System.out.println("TABELA DE CODIFICAÇÃO:");
-        for (Map.Entry<Character, StringBuilder> pair : codificacao.entrySet()) {
+        for (Map.Entry<Character, String> pair : codificacao.entrySet()) {
             System.out.print(" <" + pair.getKey() + "," + pair.getValue().toString() + "> ");
         }
         System.out.println("]");
 
 
         System.out.println("BITS ENVIADOS:");
-        System.out.println(bitsParaImprimir);
+        System.out.println(this.bitsParaImprimir);
 
         System.out.println("BITSET DOS BITS ENVIADOS:");
-        System.out.println(bitsetParaImprimir);
+        System.out.println(this.bitsetParaImprimir);
     }
 
 
