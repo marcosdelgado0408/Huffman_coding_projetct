@@ -60,9 +60,7 @@ public class Compressor {
                         frequencia.put(character,1); // 1 pois quando entra pela primeira vez, ja conta 1
 
                     }
-
                 }
-
                 fileReader.close();
                 bufferedReader.close();
 
@@ -131,7 +129,6 @@ public class Compressor {
 
 
 
-//
 //
 //    private void jogarTabela(Node node) {
 //        char[] path = new char[1000000000];
@@ -289,6 +286,7 @@ public class Compressor {
     }
 
 
+
     public void exibirTaxaCompressão(String caminhoEdz, String caminhoTxt){
         File txt = new File(caminhoTxt);
         File edz = new File(caminhoEdz);
@@ -315,6 +313,8 @@ public class Compressor {
         System.out.println("--------------------------------------------------------");
 
     }
+
+
 
     public void printAllInfo(){
         System.out.println("MAP:");
