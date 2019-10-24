@@ -33,8 +33,11 @@ On this project we implemented our own Binary Tree mixed with a Heap Tree.
    It will be something like this images:
  
  ![heap](https://user-images.githubusercontent.com/44793167/67442294-9437c480-f5d6-11e9-8191-4fdff707dac5.png)
+ 
  ![heap2](https://user-images.githubusercontent.com/44793167/67442459-41aad800-f5d7-11e9-8b55-dcc43fd3525d.png)
+ 
  ![heap3](https://user-images.githubusercontent.com/44793167/67442470-4a031300-f5d7-11e9-9337-69eff8a3799e.png)
+ 
  ![heap4](https://user-images.githubusercontent.com/44793167/67442533-90587200-f5d7-11e9-9d0d-d00a8d0856d4.png)
 
  ![heap5](https://user-images.githubusercontent.com/44793167/67442538-93536280-f5d7-11e9-88d5-04503fb69b67.png)
