@@ -66,7 +66,7 @@ with the character and then his codidification in each diferent line. You will u
   
   and:
    
-      java -jar huffman_conding.jar extract "the_compressed_binary_file".edz "the_coding_table_file".edt    "new_decompressed_file".txt
+      java -jar huffman_conding.jar extract "the_compressed_binary_file".edz "the_coding_table_file".edt "new_decompressed_file".txt
   
   to extract the binary with the coding table to a text file you want.
      
