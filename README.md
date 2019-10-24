@@ -19,3 +19,30 @@ On this project we implemented our own Binary Tree mixed with a Heap Tree.
  ![heap4](https://user-images.githubusercontent.com/44793167/67442533-90587200-f5d7-11e9-9d0d-d00a8d0856d4.png)
 
  ![heap5](https://user-images.githubusercontent.com/44793167/67442538-93536280-f5d7-11e9-88d5-04503fb69b67.png)
+
+ 
+ 
+3 - After creating a Coding Tree, you have to create a coding table. You can see that each leaf of your coding tree is a character and its repetition you stored, so to create a coding table you will have to assign value 0(zero) to children´s left edges, and assing the value 1 to children´s right edges of every Node. After this, each character code is the path from the      Root node to the character leaf. 
+
+![path](https://user-images.githubusercontent.com/44793167/67443066-b8e16b80-f5d9-11e9-9e09-82364a7f1a00.png)
+
+For example:
+
+z character code is --> 001
+
+l character code is --> 11
+
+and so on...
+
+
+4 - Coding the text file
+
+   with the generated coding table, we can code the text file by comparing each character in the text file with his              generated code(inide the coding table), and putting this sequence codes in a binary file. Actually, i think this is where    the compressing happens.
+   
+   
+
+   
+   
+   
+   
+   
