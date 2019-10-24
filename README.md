@@ -22,7 +22,7 @@ On this project we implemented our own Binary Tree mixed with a Heap Tree.
 
  
  
-**3 -** After creating a Coding Tree, you have to create a coding table. You can see that each leaf of your coding tree is a character and its repetition you stored, so to create a coding table you will have to assign value 0(zero) to children´s left edges, and assing the value 1 to children´s right edges of every Node. After this, each character code is the path from the      Root node to the character leaf. 
+**3 -** After creating a Coding Tree, you have to create a coding table. You can see that each leaf of your coding tree is a character and its repetition you stored, so to create a coding table you will have to assign value 0(zero) to children´s left edges, and assing the value 1 to children´s right edges of every Node. After this, each character code is the path from the    Root node to the character leaf.
 
 ![path](https://user-images.githubusercontent.com/44793167/67443066-b8e16b80-f5d9-11e9-9e09-82364a7f1a00.png)
 
@@ -34,15 +34,23 @@ l character code is --> 11
 
 and so on...
 
+Note: After finding each code for each character, you have to put all this information in a .edt file
+with the character and then his codidification in each diferent line. You will use this after to decompress the files.
 
 **4 -** Coding the text file
 
-   with the generated coding table, we can code the text file by comparing each character in the text file with his              generated code(inide the coding table), and putting this sequence codes in a binary file. Actually, i think this is where    the compressing happens.
+   with the generated coding table, we can code the text file by comparing each character in the text file with his              generated code(inide the coding table), and putting this sequence codes in a binary file( .edz). Actually, i think this is where    the compression happens.
    
    
 
+**5-** Recovering the file
    
+   With the compressed file(.edz) and the coding table file(.edt), its possible to recover the original message!
    
+   First you have to read the coding table and put in a Map like data structure, after this you have to read every single 
+   Bit you retrieved from the .edz file and concatenate this values until you find a matching code in your coding table, and    put this character in the out buffer. You will repeat this procedure until you find the End Of File(EOF) Bit sequence.
+   
+   Note: I used Bitset java class to manipulate bits and i created an especial character to be my EOF.
    
    
    
