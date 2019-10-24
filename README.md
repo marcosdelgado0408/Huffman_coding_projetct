@@ -5,10 +5,10 @@ This Data Structure project is based on Huffman Codiding algorithm to compress a
 On this project we implemented our own Binary Tree mixed with a Heap Tree.
 
 ## Process
-1 - First i needed to count every character in a file, and then add this characters and its repetitions in a Map structure.
+**1 -** First i needed to count every character in a file, and then add this characters and its repetitions in a Map structure.
 
 
-2 - After this i had to create a Coding Tree, and to do this i used my implementation of a binary tree mixed with a heap.
+**2 -** After this i had to create a Coding Tree, and to do this i used my implementation of a binary tree mixed with a heap.
    To create a coding tree, firstly i had to put every single repeated character with his repetition number in Min Heap, and      when all this repeated characters are inside this Heap, you start to take the first two(those who have the highest priority)    elements of this Min Heap, sum the two character´s repetitions and with this value you create a Binary Tree Node, and this      node will have the value of the sum you made, and their children will be the characters you removed and made this sum, and      their repetitions. After this you have to put the binary tree Node again inside the heap, and repeat this proceedment          until all the heap will have 1 element, and this element will be the Root of the binray tree. 
    
    It will be something like this images:
@@ -22,7 +22,7 @@ On this project we implemented our own Binary Tree mixed with a Heap Tree.
 
  
  
-3 - After creating a Coding Tree, you have to create a coding table. You can see that each leaf of your coding tree is a character and its repetition you stored, so to create a coding table you will have to assign value 0(zero) to children´s left edges, and assing the value 1 to children´s right edges of every Node. After this, each character code is the path from the      Root node to the character leaf. 
+**3 -** After creating a Coding Tree, you have to create a coding table. You can see that each leaf of your coding tree is a character and its repetition you stored, so to create a coding table you will have to assign value 0(zero) to children´s left edges, and assing the value 1 to children´s right edges of every Node. After this, each character code is the path from the      Root node to the character leaf. 
 
 ![path](https://user-images.githubusercontent.com/44793167/67443066-b8e16b80-f5d9-11e9-9e09-82364a7f1a00.png)
 
@@ -35,7 +35,7 @@ l character code is --> 11
 and so on...
 
 
-4 - Coding the text file
+**4 -** Coding the text file
 
    with the generated coding table, we can code the text file by comparing each character in the text file with his              generated code(inide the coding table), and putting this sequence codes in a binary file. Actually, i think this is where    the compressing happens.
    
