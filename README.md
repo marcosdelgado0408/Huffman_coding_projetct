@@ -9,7 +9,7 @@ On this project we implemented our own Binary Tree mixed with a Heap Tree.
 
 
 2 - After this i had to create a Coding Tree, and to do this i used my implementation of a binary tree mixed with a heap.
-   To create a coding tree, firstly i had to put every single repeated character with his repetition number in Min Heap, and      when all this repeated characters are inside this Heap, you start to take the first two(those who have the highest priority)    elements of this Min Heap, sum the two character´s repetitions and with this value you create a Binary Tree Node, and this      node will have the value of the sum you made, and their children will be the characters you removed and made this sum, and      their repetitions . After this you have to put the binary tree Node again inside the heap, and repeat this procedment          until all the heap will have 1 element, and this element will be the Root of the binray tree. 
+   To create a coding tree, firstly i had to put every single repeated character with his repetition number in Min Heap, and      when all this repeated characters are inside this Heap, you start to take the first two(those who have the highest priority)    elements of this Min Heap, sum the two character´s repetitions and with this value you create a Binary Tree Node, and this      node will have the value of the sum you made, and their children will be the characters you removed and made this sum, and      their repetitions. After this you have to put the binary tree Node again inside the heap, and repeat this proceedment          until all the heap will have 1 element, and this element will be the Root of the binray tree. 
    
    It will be something like this images:
  
