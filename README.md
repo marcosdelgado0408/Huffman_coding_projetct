@@ -39,7 +39,7 @@ with the character and then his codidification in each diferent line. You will u
 
 **4 -** Coding the text file
 
-   with the generated coding table, we can code the text file by comparing each character in the text file with his              generated code(inide the coding table), and putting this sequence codes in a binary file( .edz). Actually, i think this is where    the compression happens.
+   With the generated coding table, we can code the text file by comparing each character in the text file with his              generated code(inide the coding table), and putting this sequence codes in a binary file( .edz). Actually, i think this is where    the compression happens.
    
    
 
@@ -52,5 +52,23 @@ with the character and then his codidification in each diferent line. You will u
    
    Note: I used Bitset java class to manipulate bits and i created an especial character to be my EOF.
    
+   
+   
+ ## How to run
+ 
+  You can enter in the build directory and there you will find the .jar.
+  
+  with this .jar file you can type:
+  
+    java -jar huffman_conding.jar compress "to_compress_file_path".txt "the_compressed_binary_file".edz "the_coding_table_file".edt
+  
+  to compress the text file you want.
+  
+  and:
+   
+      java -jar huffman_conding.jar extract "the_compressed_binary_file".edz "the_coding_table_file".edt    "new_decompressed_file".txt
+  
+  to extract the binary with the coding table to a text file you want.
+     
    
    
